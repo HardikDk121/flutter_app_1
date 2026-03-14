@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart'; // Make sure this is in your pubspec.yaml
 
 void main() {
   runApp(const MyApp());
@@ -203,18 +205,18 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Categories", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.black, // Dark theme
-        foregroundColor: Colors.blue,  // Dark theme
+        backgroundColor: Colors.black, 
+        foregroundColor: Colors.blue,  
         centerTitle: true,
         elevation: 0,
       ),
-      backgroundColor: Colors.black, // Dark theme
+      backgroundColor: Colors.black, 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
           itemCount: categories.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // 2 columns
+            crossAxisCount: 2, 
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
             childAspectRatio: 1,
@@ -222,12 +224,12 @@ class CategoriesScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.grey[900], // Dark grey tile to stand out against black background
-                border: Border.all(color: Colors.blue, width: 2), // Blue border
+                color: Colors.grey[900], 
+                border: Border.all(color: Colors.blue, width: 2), 
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.1), // Subtle blue shadow
+                    color: Colors.blue.withOpacity(0.1), 
                     blurRadius: 6,
                     spreadRadius: 2,
                   ),
@@ -239,7 +241,7 @@ class CategoriesScreen extends StatelessWidget {
                   Icon(
                     categories[index]["icon"],
                     size: 50,
-                    color: Colors.blue, // Blue icon
+                    color: Colors.blue, 
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -247,7 +249,7 @@ class CategoriesScreen extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.blue, // Blue text
+                      color: Colors.blue, 
                     ),
                   ),
                 ],
@@ -260,8 +262,201 @@ class CategoriesScreen extends StatelessWidget {
   }
 }
 
+// --- PRACTICAL 4: Add Recipe Screen ---
+class AddRecipeScreen extends StatefulWidget{
+ const AddRecipeScreen({super.key});
+ @override
+ State<AddRecipeScreen> createState() => AddRecipeScreenState();
+}
 
-// --- PLACEHOLDERS ---
+class AddRecipeScreenState extends State<AddRecipeScreen>{
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController nametxt = TextEditingController();
+  final TextEditingController ingredents = TextEditingController();
+  final TextEditingController steps = TextEditingController();
+  final TextEditingController timecontroller = TextEditingController();
+
+  String? selectedCategory;
+  File? _selectedImage;
+  late final List<String> categories = [
+    "Indian",
+    "Italian",
+    "Chinese",
+    "Mexican",
+    "Desserts"
+  ];
+
+  Future<void> pickImage() async{
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(pickedFile != null)
+      {
+        setState(() {
+          _selectedImage = File(pickedFile.path);
+        });
+      }
+  }
+
+  void submitForm(){
+    if (_formKey.currentState!.validate()) {
+      if (selectedCategory == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please select category")),
+        );
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Recipe Added Successfully!", style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.blue,
+        ),
+      );
+
+      Navigator.pop(context);
+  }}
+
+  // Helper method for styling text fields
+  InputDecoration _buildInputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.blue),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.blue),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.blue, width: 2),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent, width: 2),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+   return Scaffold(
+     backgroundColor: Colors.black,
+     appBar: AppBar(
+       title: const Text("Add Recipes", style: TextStyle(fontWeight: FontWeight.bold)),
+       backgroundColor: Colors.black,
+       foregroundColor: Colors.blue,
+       centerTitle: true,
+       elevation: 0,
+     ),
+     body: SingleChildScrollView(
+       padding: const EdgeInsets.all(16),
+       child: Form(
+           key: _formKey,
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.stretch,
+             children: [
+               TextFormField(
+                 controller: nametxt,
+                 style: const TextStyle(color: Colors.white),
+                 decoration: _buildInputDecoration("Recipe Name"),
+                 validator: (value) =>
+                 value == null || value.isEmpty ? "Please enter recipe name" : null,
+               ),
+               const SizedBox(height: 19),
+               TextFormField(
+                 controller: ingredents,
+                 style: const TextStyle(color: Colors.white),
+                 decoration: _buildInputDecoration("Recipe Ingredients"),
+                 validator: (value) =>
+                 value == null || value.isEmpty ? "Please enter ingredients" : null,
+               ),
+               const SizedBox(height: 19),
+               TextFormField(
+                 controller: steps,
+                 style: const TextStyle(color: Colors.white),
+                 decoration: _buildInputDecoration("Steps"),
+                 validator: (value) =>
+                 value == null || value.isEmpty ? "Please enter steps" : null,
+               ),
+               const SizedBox(height: 19),
+
+               DropdownButtonFormField<String>(
+                 value: selectedCategory,
+                 dropdownColor: Colors.grey[900], // Dark background for dropdown menu
+                 style: const TextStyle(color: Colors.white),
+                 decoration: _buildInputDecoration("Select Category"),
+                 items: categories
+                   .map(
+                     (category) => DropdownMenuItem(
+                       value: category,
+                       child: Text(category),
+                     ),
+                 ).toList(),
+                 onChanged: (value) {
+                 setState(() {
+                   selectedCategory = value;
+                 });
+                 },
+                 validator: (value) =>
+                   value == null ? "Please select category" : null,
+               ),
+               const SizedBox(height: 19),
+               TextFormField(
+                 controller: timecontroller,
+                 style: const TextStyle(color: Colors.white),
+                 decoration: _buildInputDecoration("Required Time (e.g., 30 mins)"),
+                 validator: (value) =>
+                 value == null || value.isEmpty ? "Please enter required time" : null,
+               ),
+               const SizedBox(height: 19),
+
+               // Image Upload
+               ElevatedButton.icon(
+                 icon: const Icon(Icons.image, color: Colors.blue),
+                 label: const Text("Upload Image (Optional)", style: TextStyle(color: Colors.blue)),
+                 style: ElevatedButton.styleFrom(
+                   backgroundColor: Colors.grey[900],
+                   side: const BorderSide(color: Colors.blue),
+                 ),
+                 onPressed: pickImage,
+               ),
+
+               const SizedBox(height: 15),
+
+               if (_selectedImage != null)
+                 Container(
+                   decoration: BoxDecoration(
+                     border: Border.all(color: Colors.blue, width: 2),
+                   ),
+                   child: Image.file(
+                     _selectedImage!,
+                     height: 150,
+                     fit: BoxFit.cover,
+                   ),
+                 ),
+
+               const SizedBox(height: 25),
+               
+               // Submit Button
+               ElevatedButton(
+                 onPressed: submitForm,
+                 style: ElevatedButton.styleFrom(
+                   backgroundColor: Colors.blue,
+                   padding: const EdgeInsets.symmetric(vertical: 15),
+                 ),
+                 child: const Text(
+                   "Save Recipe",
+                   style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+                 ),
+               ),
+             ],
+           ),
+       ),
+     ),
+   );
+  }
+}
+
+// --- PLACEHOLDER ---
 class AllRecipeScreen extends StatelessWidget {
   const AllRecipeScreen({super.key});
   @override
@@ -273,23 +468,7 @@ class AllRecipeScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.blue,
       ),
-      body: const Center(child: Text('All Recipes Screen', style: TextStyle(color: Colors.blue))),
-    );
-  }
-}
-
-class AddRecipeScreen extends StatelessWidget {
-  const AddRecipeScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Add Recipe'),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.blue,
-      ),
-      body: const Center(child: Text('Add Recipe Screen', style: TextStyle(color: Colors.blue))),
+      body: const Center(child: Text('All Recipes Screen (Pending)', style: TextStyle(color: Colors.blue))),
     );
   }
 }
