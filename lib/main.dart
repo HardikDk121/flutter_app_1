@@ -65,21 +65,21 @@ class SplashScreenState extends State<SplashScreen> {
   }
 }
 
-// --- PRACTICAL 2: Home Screen (Vesuvio Theme) ---
+// --- PRACTICAL 2: Home Screen ---
 class HomeScreen extends StatelessWidget{
   const HomeScreen({super.key});
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Changed to black
+      backgroundColor: Colors.black, 
       appBar: AppBar(
         title: const Text(
-          "THE BEAR Secret Recipe Book",
+          "Recipe Book",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black, // Changed to black
-        foregroundColor: Colors.blue, // Changed to blue
+        backgroundColor: Colors.black, 
+        foregroundColor: Colors.blue, 
         elevation: 0,
       ),
       body: Center(
@@ -92,18 +92,18 @@ class HomeScreen extends StatelessWidget{
               ElevatedButton.icon(
                 icon: const Icon(
                   Icons.menu_book,
-                  color: Colors.blue, // Changed to blue
+                  color: Colors.blue, 
                 ),
                 label: const Text(
                   "All Recipes",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), // Changed to blue
+                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], // Dark grey for contrast
+                  backgroundColor: Colors.grey[900], 
                   side: const BorderSide(
-                    color: Colors.blue, // Changed to blue
+                    color: Colors.blue, 
                     width: 2,
                   ),
                   elevation: 0,
@@ -123,18 +123,18 @@ class HomeScreen extends StatelessWidget{
               ElevatedButton.icon(
                 icon: const Icon(
                   Icons.add,
-                  color: Colors.blue, // Changed to blue
+                  color: Colors.blue, 
                 ),
                 label: const Text(
                   "Add Recipe",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), // Changed to blue
+                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], // Dark grey for contrast
+                  backgroundColor: Colors.grey[900], 
                   side: const BorderSide(
-                    color: Colors.blue, // Changed to blue
+                    color: Colors.blue, 
                     width: 2,
                   ),
                   elevation: 0,
@@ -153,18 +153,18 @@ class HomeScreen extends StatelessWidget{
               ElevatedButton.icon(
                 icon: const Icon(
                   Icons.category,
-                  color: Colors.blue, // Changed to blue
+                  color: Colors.blue, 
                 ),
                 label: const Text(
                   "Categories",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), // Changed to blue
+                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], // Dark grey for contrast
+                  backgroundColor: Colors.grey[900], 
                   side: const BorderSide(
-                    color: Colors.blue, // Changed to blue
+                    color: Colors.blue, 
                     width: 2,
                   ),
                   elevation: 0,
@@ -186,8 +186,82 @@ class HomeScreen extends StatelessWidget{
   }
 }
 
-// --- PLACEHOLDERS ---
+// --- PRACTICAL 3: Categories Screen ---
+class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> categories = [
+      {"name": "Indian", "icon": Icons.rice_bowl},
+      {"name": "Italian", "icon": Icons.local_pizza},
+      {"name": "Chinese", "icon": Icons.ramen_dining},
+      {"name": "Mexican", "icon": Icons.local_dining},
+      {"name": "Desserts", "icon": Icons.cake},
+    ];
 
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Categories", style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.black, // Dark theme
+        foregroundColor: Colors.blue,  // Dark theme
+        centerTitle: true,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.black, // Dark theme
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.builder(
+          itemCount: categories.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // 2 columns
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 1,
+          ),
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[900], // Dark grey tile to stand out against black background
+                border: Border.all(color: Colors.blue, width: 2), // Blue border
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blue.withOpacity(0.1), // Subtle blue shadow
+                    blurRadius: 6,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    categories[index]["icon"],
+                    size: 50,
+                    color: Colors.blue, // Blue icon
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    categories[index]["name"],
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.blue, // Blue text
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+// --- PLACEHOLDERS ---
 class AllRecipeScreen extends StatelessWidget {
   const AllRecipeScreen({super.key});
   @override
@@ -216,22 +290,6 @@ class AddRecipeScreen extends StatelessWidget {
         foregroundColor: Colors.blue,
       ),
       body: const Center(child: Text('Add Recipe Screen', style: TextStyle(color: Colors.blue))),
-    );
-  }
-}
-
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Categories'),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.blue,
-      ),
-      body: const Center(child: Text('Categories Screen', style: TextStyle(color: Colors.blue))),
     );
   }
 }
