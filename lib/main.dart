@@ -123,9 +123,7 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-
               const SizedBox(height: 20),
-
               ElevatedButton.icon(
                 icon: const Icon(Icons.add, color: Colors.blue),
                 label: const Text(
@@ -152,7 +150,6 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-
               ElevatedButton.icon(
                 icon: const Icon(Icons.category, color: Colors.blue),
                 label: const Text(
@@ -317,7 +314,6 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
     }
   }
 
-  // Helper method for styling text fields
   InputDecoration _buildInputDecoration(String label) {
     return InputDecoration(
       labelText: label,
@@ -385,7 +381,6 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
                     : null,
               ),
               const SizedBox(height: 19),
-
               DropdownButtonFormField<String>(
                 value: selectedCategory,
                 dropdownColor: Colors.grey[900],
@@ -419,8 +414,6 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
                     : null,
               ),
               const SizedBox(height: 19),
-
-              // Image Upload
               ElevatedButton.icon(
                 icon: const Icon(Icons.image, color: Colors.blue),
                 label: const Text(
@@ -433,9 +426,7 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
                 ),
                 onPressed: pickImage,
               ),
-
               const SizedBox(height: 15),
-
               if (_selectedImage != null)
                 Container(
                   decoration: BoxDecoration(
@@ -447,10 +438,7 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-
               const SizedBox(height: 25),
-
-              // Submit Button
               ElevatedButton(
                 onPressed: submitForm,
                 style: ElevatedButton.styleFrom(
@@ -474,7 +462,7 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
   }
 }
 
-// --- PRACTICAL 5 & 6: All Recipes Screen (Integrated) ---
+// --- PRACTICAL 5 & 6: All Recipes Screen ---
 class AllRecipeScreen extends StatelessWidget {
   AllRecipeScreen({super.key});
 
@@ -489,43 +477,38 @@ class AllRecipeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Matched with your theme
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           "Recipe List",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black, // Matched with your theme
-        foregroundColor: Colors.blue, // Matched with your theme
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.blue,
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: recipes.length,
         itemBuilder: (context, index) {
           return Card(
-            color: Colors.grey[900], // Matched with your theme
+            color: Colors.grey[900],
             margin: const EdgeInsets.only(bottom: 10),
             shape: RoundedRectangleBorder(
               side: const BorderSide(color: Colors.blue, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              leading: const Icon(
-                Icons.restaurant_menu,
-                color: Colors.blue,
-              ), // Matched with your theme
+              leading: const Icon(Icons.restaurant_menu, color: Colors.blue),
               title: Text(
                 recipes[index]["title"]!,
                 style: const TextStyle(
-                  color: Colors.blue, // Matched with your theme
+                  color: Colors.blue,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
                 "Category: ${recipes[index]["category"]}\nCooking Time: ${recipes[index]["time"]}",
-                style: TextStyle(
-                  color: Colors.grey[300],
-                ), // Matched with your theme
+                style: TextStyle(color: Colors.grey[300]),
               ),
               trailing: const Icon(
                 Icons.arrow_forward_ios,
@@ -533,13 +516,12 @@ class AllRecipeScreen extends StatelessWidget {
                 size: 16,
               ),
               onTap: () {
-                // Navigate to Practical 6 (Recipe Detail Screen)
+                // Navigate to Practical 7
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RecipeDetailScreen(
-                      recipeName: recipes[index]["title"]!,
-                    ),
+                    builder: (context) =>
+                        RecipeDetailPage(recipeName: recipes[index]["title"]!),
                   ),
                 );
               },
@@ -551,16 +533,36 @@ class AllRecipeScreen extends StatelessWidget {
   }
 }
 
-// --- PRACTICAL 6: Recipe Detail Screen ---
-class RecipeDetailScreen extends StatelessWidget {
-  final String recipeName;
+// --- PRACTICAL 7: Recipe Detail Page ---
+class RecipeDetailPage extends StatelessWidget {
+  final String
+  recipeName; // Made this dynamic so the title matches the tapped item
 
-  const RecipeDetailScreen({super.key, required this.recipeName});
+  RecipeDetailPage({super.key, required this.recipeName});
+
+  final List<String> ingredients = [
+    "2 cups Basmati Rice",
+    "1 cup Mixed Vegetables",
+    "2 Onions",
+    "2 Tomatoes",
+    "Biryani Masala",
+    "Salt",
+    "Oil",
+  ];
+
+  final List<String> steps = [
+    "Wash and soak the rice for 20 minutes.",
+    "Heat oil in a pan and fry sliced onions.",
+    "Add tomatoes and cook until soft.",
+    "Add vegetables and spices.",
+    "Add soaked rice and water.",
+    "Cook for 20 minutes until rice is done.",
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.black, // Themed to match Vesuvio
       appBar: AppBar(
         title: Text(
           recipeName,
@@ -569,64 +571,101 @@ class RecipeDetailScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.blue,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Placeholder for Recipe Image
-            Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.blue, width: 2),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Ingredients",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
               ),
-              child: const Icon(Icons.fastfood, size: 80, color: Colors.blue),
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 10),
+              ...ingredients.map((item) {
+                return ListTile(
+                  leading: const Icon(Icons.check_circle, color: Colors.blue),
+                  title: Text(
+                    item,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              }).toList(),
+              const SizedBox(height: 20),
+              const Text(
+                "Preparation Steps",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(height: 10),
+              ...steps.asMap().entries.map((entry) {
+                int index = entry.key + 1;
+                String step = entry.value;
 
-            // Ingredients Section
-            const Text(
-              "Ingredients",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    child: Text(
+                      "$index",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    step,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              }).toList(),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Edit button clicked")),
+                      );
+                    },
+                    icon: const Icon(Icons.edit),
+                    label: const Text(
+                      "Edit",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Recipe Deleted")),
+                      );
+                    },
+                    icon: const Icon(Icons.delete),
+                    label: const Text(
+                      "Delete",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "• 2 cups of love\n• 1 tbsp of patience\n• Pinch of salt",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[300],
-                height: 1.5,
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Steps Section
-            const Text(
-              "Steps",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "1. Prepare the ingredients.\n2. Cook with passion.\n3. Serve hot to family and friends.",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[300],
-                height: 1.5,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
