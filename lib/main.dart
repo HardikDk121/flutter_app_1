@@ -462,16 +462,41 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
   }
 }
 
-// --- PRACTICAL 5 & 6: All Recipes Screen ---
+// --- PRACTICAL 5, 6 & 8: All Recipes Screen with Reusable Widget ---
 class AllRecipeScreen extends StatelessWidget {
   AllRecipeScreen({super.key});
 
   final List<Map<String, String>> recipes = [
-    {"title": "Veg Biryani", "category": "Indian", "time": "45 mins"},
-    {"title": "Pasta Alfredo", "category": "Italian", "time": "30 mins"},
-    {"title": "Paneer Butter Masala", "category": "Indian", "time": "40 mins"},
-    {"title": "Veg Noodles", "category": "Chinese", "time": "25 mins"},
-    {"title": "Chocolate Cake", "category": "Dessert", "time": "60 mins"},
+    {
+      "title": "Veg Biryani",
+      "category": "Indian",
+      "time": "45 mins",
+      "image": "assets/images/veg_biranyi.jpg", // using placeholder image
+    },
+    {
+      "title": "Pasta Alfredo",
+      "category": "Italian",
+      "time": "30 mins",
+      "image": "assets/images/pasta.webp",
+    },
+    {
+      "title": "Paneer Butter Masala",
+      "category": "Indian",
+      "time": "40 mins",
+      "image": "assets/images/panner.jpg",
+    },
+    {
+      "title": "Veg Noodles",
+      "category": "Chinese",
+      "time": "25 mins",
+      "image": "assets/images/veg_noodles.jpg",
+    },
+    {
+      "title": "Chocolate Cake",
+      "category": "Dessert",
+      "time": "60 mins",
+      "image": "assets/images/cake.jpg",
+    },
   ];
 
   @override
@@ -490,33 +515,15 @@ class AllRecipeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: recipes.length,
         itemBuilder: (context, index) {
-          return Card(
-            color: Colors.grey[900],
-            margin: const EdgeInsets.only(bottom: 10),
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.blue, width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListTile(
-              leading: const Icon(Icons.restaurant_menu, color: Colors.blue),
-              title: Text(
-                recipes[index]["title"]!,
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                "Category: ${recipes[index]["category"]}\nCooking Time: ${recipes[index]["time"]}",
-                style: TextStyle(color: Colors.grey[300]),
-              ),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.blue,
-                size: 16,
-              ),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            // Using Practical 8 RecipeCard here!
+            child: RecipeCard(
+              title: recipes[index]["title"]!,
+              category:
+                  "Category: ${recipes[index]["category"]} • Time: ${recipes[index]["time"]}",
+              image: recipes[index]["image"]!,
               onTap: () {
-                // Navigate to Practical 7
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -535,8 +542,7 @@ class AllRecipeScreen extends StatelessWidget {
 
 // --- PRACTICAL 7: Recipe Detail Page ---
 class RecipeDetailPage extends StatelessWidget {
-  final String
-  recipeName; // Made this dynamic so the title matches the tapped item
+  final String recipeName;
 
   RecipeDetailPage({super.key, required this.recipeName});
 
@@ -562,7 +568,7 @@ class RecipeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Themed to match Vesuvio
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           recipeName,
@@ -666,6 +672,87 @@ class RecipeDetailPage extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// --- PRACTICAL 8: Reusable Recipe Card Widget ---
+class RecipeCard extends StatelessWidget {
+  final String title;
+  final String category;
+  final String image;
+  final VoidCallback? onTap; // Optional: tap action
+
+  const RecipeCard({
+    required this.title,
+    required this.category,
+    required this.image,
+    this.onTap,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.grey[900], // Matched with the app's dark theme
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(
+            color: Colors.blue,
+            width: 1,
+          ), // Added blue border for theme consistency
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // IMAGE
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
+              child: Container(
+                color: Colors.black, // Background in case of transparent images
+                child: Image.asset(
+                  image,
+                  height: 140,
+                  width: double.infinity,
+                  fit: BoxFit
+                      .contain, // Changed to contain so the placeholder displays nicely
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // TITLE
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue, // Matched with theme
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  // CATEGORY
+                  Text(
+                    category,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[400], // Visible on dark background
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
