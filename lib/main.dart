@@ -8,6 +8,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// --- PRACTICAL 1: Splash Screen ---
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   @override
@@ -50,16 +52,23 @@ class SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset('assets/images/cooking.png', height: 120),
             const SizedBox(height: 28),
-            const Text("Vesuvio",  style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue
-            )),
-           const Text("Three generations of Buccos sweated over that stove",  style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue
-            ), textAlign: TextAlign.center,)
+            const Text(
+              "Vesuvio",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+            const Text(
+              "Three generations of Buccos sweated over that stove",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -68,20 +77,20 @@ class SplashScreenState extends State<SplashScreen> {
 }
 
 // --- PRACTICAL 2: Home Screen ---
-class HomeScreen extends StatelessWidget{
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, 
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
           "Recipe Book",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black, 
-        foregroundColor: Colors.blue, 
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.blue,
         elevation: 0,
       ),
       body: Center(
@@ -92,30 +101,25 @@ class HomeScreen extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.menu_book,
-                  color: Colors.blue, 
-                ),
+                icon: const Icon(Icons.menu_book, color: Colors.blue),
                 label: const Text(
                   "All Recipes",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], 
-                  side: const BorderSide(
-                    color: Colors.blue, 
-                    width: 2,
-                  ),
+                  backgroundColor: Colors.grey[900],
+                  side: const BorderSide(color: Colors.blue, width: 2),
                   elevation: 0,
                 ),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const AllRecipeScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => AllRecipeScreen()),
                   );
                 },
               ),
@@ -123,22 +127,19 @@ class HomeScreen extends StatelessWidget{
               const SizedBox(height: 20),
 
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.blue, 
-                ),
+                icon: const Icon(Icons.add, color: Colors.blue),
                 label: const Text(
                   "Add Recipe",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], 
-                  side: const BorderSide(
-                    color: Colors.blue, 
-                    width: 2,
-                  ),
+                  backgroundColor: Colors.grey[900],
+                  side: const BorderSide(color: Colors.blue, width: 2),
                   elevation: 0,
                 ),
                 onPressed: () {
@@ -153,22 +154,19 @@ class HomeScreen extends StatelessWidget{
               const SizedBox(height: 20),
 
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.category,
-                  color: Colors.blue, 
-                ),
+                icon: const Icon(Icons.category, color: Colors.blue),
                 label: const Text(
                   "Categories",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold), 
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: Colors.grey[900], 
-                  side: const BorderSide(
-                    color: Colors.blue, 
-                    width: 2,
-                  ),
+                  backgroundColor: Colors.grey[900],
+                  side: const BorderSide(color: Colors.blue, width: 2),
                   elevation: 0,
                 ),
                 onPressed: () {
@@ -191,7 +189,7 @@ class HomeScreen extends StatelessWidget{
 // --- PRACTICAL 3: Categories Screen ---
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> categories = [
@@ -204,19 +202,22 @@ class CategoriesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Categories", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.black, 
-        foregroundColor: Colors.blue,  
+        title: const Text(
+          "Categories",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.blue,
         centerTitle: true,
         elevation: 0,
       ),
-      backgroundColor: Colors.black, 
+      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
           itemCount: categories.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, 
+            crossAxisCount: 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
             childAspectRatio: 1,
@@ -224,12 +225,12 @@ class CategoriesScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
-                color: Colors.grey[900], 
-                border: Border.all(color: Colors.blue, width: 2), 
+                color: Colors.grey[900],
+                border: Border.all(color: Colors.blue, width: 2),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.1), 
+                    color: Colors.blue.withOpacity(0.1),
                     blurRadius: 6,
                     spreadRadius: 2,
                   ),
@@ -238,18 +239,14 @@ class CategoriesScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    categories[index]["icon"],
-                    size: 50,
-                    color: Colors.blue, 
-                  ),
+                  Icon(categories[index]["icon"], size: 50, color: Colors.blue),
                   const SizedBox(height: 10),
                   Text(
                     categories[index]["name"],
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.blue, 
+                      color: Colors.blue,
                     ),
                   ),
                 ],
@@ -263,14 +260,13 @@ class CategoriesScreen extends StatelessWidget {
 }
 
 // --- PRACTICAL 4: Add Recipe Screen ---
-class AddRecipeScreen extends StatefulWidget{
- const AddRecipeScreen({super.key});
- @override
- State<AddRecipeScreen> createState() => AddRecipeScreenState();
+class AddRecipeScreen extends StatefulWidget {
+  const AddRecipeScreen({super.key});
+  @override
+  State<AddRecipeScreen> createState() => AddRecipeScreenState();
 }
 
-class AddRecipeScreenState extends State<AddRecipeScreen>{
-
+class AddRecipeScreenState extends State<AddRecipeScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nametxt = TextEditingController();
   final TextEditingController ingredents = TextEditingController();
@@ -284,37 +280,42 @@ class AddRecipeScreenState extends State<AddRecipeScreen>{
     "Italian",
     "Chinese",
     "Mexican",
-    "Desserts"
+    "Desserts",
   ];
 
-  Future<void> pickImage() async{
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(pickedFile != null)
-      {
-        setState(() {
-          _selectedImage = File(pickedFile.path);
-        });
-      }
+  Future<void> pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
   }
 
-  void submitForm(){
+  void submitForm() {
     if (_formKey.currentState!.validate()) {
       if (selectedCategory == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please select category")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Please select category")));
         return;
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Recipe Added Successfully!", style: TextStyle(color: Colors.white)),
+          content: Text(
+            "Recipe Added Successfully!",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.blue,
         ),
       );
 
       Navigator.pop(context);
-  }}
+    }
+  }
 
   // Helper method for styling text fields
   InputDecoration _buildInputDecoration(String label) {
@@ -338,137 +339,296 @@ class AddRecipeScreenState extends State<AddRecipeScreen>{
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-     backgroundColor: Colors.black,
-     appBar: AppBar(
-       title: const Text("Add Recipes", style: TextStyle(fontWeight: FontWeight.bold)),
-       backgroundColor: Colors.black,
-       foregroundColor: Colors.blue,
-       centerTitle: true,
-       elevation: 0,
-     ),
-     body: SingleChildScrollView(
-       padding: const EdgeInsets.all(16),
-       child: Form(
-           key: _formKey,
-           child: Column(
-             crossAxisAlignment: CrossAxisAlignment.stretch,
-             children: [
-               TextFormField(
-                 controller: nametxt,
-                 style: const TextStyle(color: Colors.white),
-                 decoration: _buildInputDecoration("Recipe Name"),
-                 validator: (value) =>
-                 value == null || value.isEmpty ? "Please enter recipe name" : null,
-               ),
-               const SizedBox(height: 19),
-               TextFormField(
-                 controller: ingredents,
-                 style: const TextStyle(color: Colors.white),
-                 decoration: _buildInputDecoration("Recipe Ingredients"),
-                 validator: (value) =>
-                 value == null || value.isEmpty ? "Please enter ingredients" : null,
-               ),
-               const SizedBox(height: 19),
-               TextFormField(
-                 controller: steps,
-                 style: const TextStyle(color: Colors.white),
-                 decoration: _buildInputDecoration("Steps"),
-                 validator: (value) =>
-                 value == null || value.isEmpty ? "Please enter steps" : null,
-               ),
-               const SizedBox(height: 19),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text(
+          "Add Recipes",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.blue,
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: nametxt,
+                style: const TextStyle(color: Colors.white),
+                decoration: _buildInputDecoration("Recipe Name"),
+                validator: (value) => value == null || value.isEmpty
+                    ? "Please enter recipe name"
+                    : null,
+              ),
+              const SizedBox(height: 19),
+              TextFormField(
+                controller: ingredents,
+                style: const TextStyle(color: Colors.white),
+                decoration: _buildInputDecoration("Recipe Ingredients"),
+                validator: (value) => value == null || value.isEmpty
+                    ? "Please enter ingredients"
+                    : null,
+              ),
+              const SizedBox(height: 19),
+              TextFormField(
+                controller: steps,
+                style: const TextStyle(color: Colors.white),
+                decoration: _buildInputDecoration("Steps"),
+                validator: (value) => value == null || value.isEmpty
+                    ? "Please enter steps"
+                    : null,
+              ),
+              const SizedBox(height: 19),
 
-               DropdownButtonFormField<String>(
-                 value: selectedCategory,
-                 dropdownColor: Colors.grey[900], // Dark background for dropdown menu
-                 style: const TextStyle(color: Colors.white),
-                 decoration: _buildInputDecoration("Select Category"),
-                 items: categories
-                   .map(
-                     (category) => DropdownMenuItem(
-                       value: category,
-                       child: Text(category),
-                     ),
-                 ).toList(),
-                 onChanged: (value) {
-                 setState(() {
-                   selectedCategory = value;
-                 });
-                 },
-                 validator: (value) =>
-                   value == null ? "Please select category" : null,
-               ),
-               const SizedBox(height: 19),
-               TextFormField(
-                 controller: timecontroller,
-                 style: const TextStyle(color: Colors.white),
-                 decoration: _buildInputDecoration("Required Time (e.g., 30 mins)"),
-                 validator: (value) =>
-                 value == null || value.isEmpty ? "Please enter required time" : null,
-               ),
-               const SizedBox(height: 19),
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                dropdownColor: Colors.grey[900],
+                style: const TextStyle(color: Colors.white),
+                decoration: _buildInputDecoration("Select Category"),
+                items: categories
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                },
+                validator: (value) =>
+                    value == null ? "Please select category" : null,
+              ),
+              const SizedBox(height: 19),
+              TextFormField(
+                controller: timecontroller,
+                style: const TextStyle(color: Colors.white),
+                decoration: _buildInputDecoration(
+                  "Required Time (e.g., 30 mins)",
+                ),
+                validator: (value) => value == null || value.isEmpty
+                    ? "Please enter required time"
+                    : null,
+              ),
+              const SizedBox(height: 19),
 
-               // Image Upload
-               ElevatedButton.icon(
-                 icon: const Icon(Icons.image, color: Colors.blue),
-                 label: const Text("Upload Image (Optional)", style: TextStyle(color: Colors.blue)),
-                 style: ElevatedButton.styleFrom(
-                   backgroundColor: Colors.grey[900],
-                   side: const BorderSide(color: Colors.blue),
-                 ),
-                 onPressed: pickImage,
-               ),
+              // Image Upload
+              ElevatedButton.icon(
+                icon: const Icon(Icons.image, color: Colors.blue),
+                label: const Text(
+                  "Upload Image (Optional)",
+                  style: TextStyle(color: Colors.blue),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[900],
+                  side: const BorderSide(color: Colors.blue),
+                ),
+                onPressed: pickImage,
+              ),
 
-               const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-               if (_selectedImage != null)
-                 Container(
-                   decoration: BoxDecoration(
-                     border: Border.all(color: Colors.blue, width: 2),
-                   ),
-                   child: Image.file(
-                     _selectedImage!,
-                     height: 150,
-                     fit: BoxFit.cover,
-                   ),
-                 ),
+              if (_selectedImage != null)
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue, width: 2),
+                  ),
+                  child: Image.file(
+                    _selectedImage!,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
+                ),
 
-               const SizedBox(height: 25),
-               
-               // Submit Button
-               ElevatedButton(
-                 onPressed: submitForm,
-                 style: ElevatedButton.styleFrom(
-                   backgroundColor: Colors.blue,
-                   padding: const EdgeInsets.symmetric(vertical: 15),
-                 ),
-                 child: const Text(
-                   "Save Recipe",
-                   style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-                 ),
-               ),
-             ],
-           ),
-       ),
-     ),
-   );
+              const SizedBox(height: 25),
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: submitForm,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                ),
+                child: const Text(
+                  "Save Recipe",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
-// --- PLACEHOLDER ---
+// --- PRACTICAL 5 & 6: All Recipes Screen (Integrated) ---
 class AllRecipeScreen extends StatelessWidget {
-  const AllRecipeScreen({super.key});
+  AllRecipeScreen({super.key});
+
+  final List<Map<String, String>> recipes = [
+    {"title": "Veg Biryani", "category": "Indian", "time": "45 mins"},
+    {"title": "Pasta Alfredo", "category": "Italian", "time": "30 mins"},
+    {"title": "Paneer Butter Masala", "category": "Indian", "time": "40 mins"},
+    {"title": "Veg Noodles", "category": "Chinese", "time": "25 mins"},
+    {"title": "Chocolate Cake", "category": "Dessert", "time": "60 mins"},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black, // Matched with your theme
+      appBar: AppBar(
+        title: const Text(
+          "Recipe List",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.black, // Matched with your theme
+        foregroundColor: Colors.blue, // Matched with your theme
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: recipes.length,
+        itemBuilder: (context, index) {
+          return Card(
+            color: Colors.grey[900], // Matched with your theme
+            margin: const EdgeInsets.only(bottom: 10),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(color: Colors.blue, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ListTile(
+              leading: const Icon(
+                Icons.restaurant_menu,
+                color: Colors.blue,
+              ), // Matched with your theme
+              title: Text(
+                recipes[index]["title"]!,
+                style: const TextStyle(
+                  color: Colors.blue, // Matched with your theme
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                "Category: ${recipes[index]["category"]}\nCooking Time: ${recipes[index]["time"]}",
+                style: TextStyle(
+                  color: Colors.grey[300],
+                ), // Matched with your theme
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.blue,
+                size: 16,
+              ),
+              onTap: () {
+                // Navigate to Practical 6 (Recipe Detail Screen)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipeDetailScreen(
+                      recipeName: recipes[index]["title"]!,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// --- PRACTICAL 6: Recipe Detail Screen ---
+class RecipeDetailScreen extends StatelessWidget {
+  final String recipeName;
+
+  const RecipeDetailScreen({super.key, required this.recipeName});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('All Recipes'),
+        title: Text(
+          recipeName,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.blue,
       ),
-      body: const Center(child: Text('All Recipes Screen (Pending)', style: TextStyle(color: Colors.blue))),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Placeholder for Recipe Image
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              child: const Icon(Icons.fastfood, size: 80, color: Colors.blue),
+            ),
+            const SizedBox(height: 24),
+
+            // Ingredients Section
+            const Text(
+              "Ingredients",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "• 2 cups of love\n• 1 tbsp of patience\n• Pinch of salt",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[300],
+                height: 1.5,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // Steps Section
+            const Text(
+              "Steps",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "1. Prepare the ingredients.\n2. Cook with passion.\n3. Serve hot to family and friends.",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[300],
+                height: 1.5,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
