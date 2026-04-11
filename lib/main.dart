@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart'; // Make sure this is in your pubspec.yaml
-
+import 'package:flutter/foundation.dart';
+import './models/recipe.dart';
+import './database/db_helper.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -291,15 +293,33 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
     }
   }
 
-  void submitForm() {
+  // Make sure to import your model and db helper at the top of main.dart
+// import 'models/recipe.dart';
+// import 'db_helper.dart';
+
+  void submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (selectedCategory == null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Please select category")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please select category"))
+        );
         return;
       }
 
+      // 1. Create the Recipe Object from form controllers
+      final newRecipe = Recipe(
+        name: nametxt.text,
+        ingredients: ingredents.text,
+        steps: steps.text,
+        category: selectedCategory!,
+        time: timecontroller.text,
+        image: _selectedImage?.path, // Save file path if an image was selected
+      );
+
+      // 2. Insert into the SQLite database
+      await DBHelper.instance.insertRecipe(newRecipe);
+
+      // 3. Show Success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -310,10 +330,10 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
         ),
       );
 
+      // 4. Clear the form or Navigate back
       Navigator.pop(context);
     }
   }
-
   InputDecoration _buildInputDecoration(String label) {
     return InputDecoration(
       labelText: label,
