@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import './models/recipe.dart';
 import './database/db_helper.dart';
 import './screens/receipe_list.dart';
+import './screens/api_recipes_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -174,6 +175,35 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const CategoriesScreen(),
+                    ),
+                  );
+                },
+              ),
+              // ... existing "Categories" button ...
+              const SizedBox(height: 20),
+              
+              // NEW BUTTON: Route to the API Screen
+              ElevatedButton.icon(
+                icon: const Icon(Icons.cloud_download, color: Colors.blue),
+                label: const Text(
+                  "Trending Online",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  textStyle: const TextStyle(fontSize: 20),
+                  backgroundColor: Colors.grey[900],
+                  side: const BorderSide(color: Colors.blue, width: 2),
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChickenRecipesScreen(),
                     ),
                   );
                 },
