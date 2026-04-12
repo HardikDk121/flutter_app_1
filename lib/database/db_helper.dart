@@ -1,8 +1,9 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:flutter/foundation.dart'; // Required for kIsWeb
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart'; // Web factory
-import '../../models/recipe.dart';
+import 'package:flutter/foundation.dart'; 
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart'; 
+import '../models/recipe.dart'; // Ensure the path is correct
+
 class DBHelper {
   static final DBHelper instance = DBHelper._init();
   static Database? _database;
@@ -15,14 +16,12 @@ class DBHelper {
   }
 
   Future<Database> _initDB(String filePath) async {
-    // Switch to the WebAssembly factory when running on the web 
     if (kIsWeb) {
       databaseFactory = databaseFactoryFfiWeb;
     }
 
-    String path = filePath; // Web just uses the string name
+    String path = filePath; 
     
-    // For mobile/desktop, use the actual file system path
     if (!kIsWeb) {
       final dbPath = await getDatabasesPath();
       path = join(dbPath, filePath);
@@ -35,7 +34,6 @@ class DBHelper {
     );
   }
 
-  // Create table
   Future _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE recipes (
@@ -50,9 +48,33 @@ class DBHelper {
     ''');
   }
 
-  // Insert recipe
   Future<int> insertRecipe(Recipe recipe) async {
     final db = await instance.database;
     return await db.insert('recipes', recipe.toMap());
+  }
+
+  // --- THESE METHODS ARE NOW INSIDE THE CLASS ---
+  Future<List<Map<String, dynamic>>> getAllRecipes() async {
+    final db = await database;
+    return await db.query('recipes');
+  }
+
+  Future<int> updateRecipe(Recipe recipe) async {
+    final db = await database;
+    return await db.update(
+      'recipes',
+      recipe.toMap(),
+      where: 'id = ?',
+      whereArgs: [recipe.id],
+    );
+  }
+
+  Future<int> deleteRecipe(int id) async {
+    final db = await database;
+    return await db.delete(
+      'recipes',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

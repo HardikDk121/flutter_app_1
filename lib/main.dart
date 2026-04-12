@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart'; // Make sure this is in your pu
 import 'package:flutter/foundation.dart';
 import './models/recipe.dart';
 import './database/db_helper.dart';
+import './screens/receipe_list.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -121,7 +122,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AllRecipeScreen()),
+                    MaterialPageRoute(builder: (context) => const RecipeListScreen()),
                   );
                 },
               ),
@@ -402,7 +403,7 @@ class AddRecipeScreenState extends State<AddRecipeScreen> {
               ),
               const SizedBox(height: 19),
               DropdownButtonFormField<String>(
-                value: selectedCategory,
+                initialValue: selectedCategory,
                 dropdownColor: Colors.grey[900],
                 style: const TextStyle(color: Colors.white),
                 decoration: _buildInputDecoration("Select Category"),
@@ -620,7 +621,7 @@ class RecipeDetailPage extends StatelessWidget {
                     style: const TextStyle(color: Colors.white),
                   ),
                 );
-              }).toList(),
+              }),
               const SizedBox(height: 20),
               const Text(
                 "Preparation Steps",
@@ -651,7 +652,7 @@ class RecipeDetailPage extends StatelessWidget {
                     style: const TextStyle(color: Colors.white),
                   ),
                 );
-              }).toList(),
+              }),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
